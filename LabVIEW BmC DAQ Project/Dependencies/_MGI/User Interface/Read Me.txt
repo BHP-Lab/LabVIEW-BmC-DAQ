@@ -1,0 +1,5 @@
+The User Interface Package contains VIs that create a new Window for the user to interact with.
+
+June 14, 2013: Initial Release
+Add MGI Button Dialog
+MGI For Loop Progress Bar

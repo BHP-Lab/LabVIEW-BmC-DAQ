@@ -1,0 +1,56 @@
+This document contains known issues and version changes for the MGI Error Reporter.
+Release 1.0.1.24
+Save to LabVIEW 2009.  Use VI Server Set Control Value and Run invoke nodes instead of Asynchronous call node.
+
+Release 1.0.1.24
+If Error Reporter window is still hidden when Destory is called, close the front panel.  This is because a hidden window will keep a VI in memory even if the VI is not running.
+
+
+Release 1.0.0.23
+Change LabVIEW version from 8.6 to 2011
+Add New Row(s).vi to allow child classes to more easily suppress dialog from showing.
+Add copyright information to all VIs.
+Update Help on VIs.
+
+Release 0.9.0.22
+Add MGI Prefix to class VI names
+Clean up Palette
+Fix problem of not stopping when Destroy is called
+Rename "Create" to "MGI Create Logger.vi".  Add "MGI Create.vi" for use with Dialog Reporter
+
+Release 0.8.0.17
+Increase error description length on RT from 256 to 512.
+Fix RT behavior of falsely reporting errors.
+
+Release 0.8.0.16
+Moved Error Reporter to LabVIEW 8.6
+
+Release 0.7.0.14
+Error Reporter Dialog now stops when LabVIEW is Quit or the project is closed.
+
+Release 0.6.2.11
+Better handling for error call chain when the "->" delimiter is used.  VISA errors added to error code to description lookup.
+
+Release 0.6.1.9
+Change location of Error Dialog Preferences file from 
+"MGI Error Reporter Base.lvclassHandler Wrapper.vi/Error Dialog Settings.vi"
+to
+"Error Reporter/Error Dialog Settings.ini".
+Show Error Dialog as hidden.  This fixes a bug where in later LabVIEW Versions no events would be registered because the Front Panel was not showing.
+Add Simple Error Handler to some error wires in Daemon Implementation.vi
+
+Release 0.6.0.8
+Need to change logic of Reporter Dialog Daemon to use better name for window settings
+
+Release 0.6.0.7
+Wednesday, July 6, 2011
+Numerous changes, including:
+add documentation
+add this text file
+change the name of the package
+change file names
+Unresolved issues:
+Get feedback on API
+Add right-click options for exploring error log directory
+Make Call chain ring open selected VI in development environment
+

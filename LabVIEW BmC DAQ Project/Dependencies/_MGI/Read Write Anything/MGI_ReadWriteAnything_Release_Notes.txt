@@ -1,0 +1,56 @@
+This document describes the changes made to Read/Write Anything as well as known issues with each release.  This document is distributed with a Read/Write Anything install to 
+<LabVIEW Dir>\user.lib\_MGI\MGI_ReadWriteAnything_Release_Notes.txt
+
+This document is updated by Moore Good Ideas when modifications are made to Read/Write Anything and when limitations or problems with Read/Write Anything are found.  This document is updated when issues are found, but is not gauranteed to be 100% complete.
+
+
+************ Revision History ************
+Release 2.1.3
+Add string indicator "Read Failures" to Read Anything and String to Anythng.  This indicator lists all errors encountered while reading the data.
+
+Release 2.1.2
+Revise known issues
+
+Release 2.1.1
+Fix a defect that prevented Read Anything from using wired values if the file did not contain the fields specified by the input cluster.  This behavior is only seen if the option input "Use Supplied" is wired to True.
+
+Release 2.1.0
+Section names that include [ or ] are now handled correctly.
+List Sections and Delete Section have been added.
+"Scan Failed" error is output from Read Anything if any data was not read as expected.  New fields in a cluster do not give this error, but a data type changed or an enum value that was saved that is no longer part of the enum will output this error.  When the error is output, default data is used for the fields that were not read as expected, and all other fields will have the expected data.
+
+Release 2.0.0
+Not a Path now saved as "<Not A*~|.Path>"
+Tags now saved as strings
+Array of Tags now saved as an array of strings
+Array of Timestamps now saved as an array of strings
+Support added for using non "," delimiters for array of items.
+Format string for timestamp and numeric data is now saved with the file.
+
+
+Release 1.x
+Multiple releases were made without formally describing the changes.
+
+
+
+************ Known Issues (All Revisions) ************
+LabVIEW Real Time Tag and Reference Failure
+When used with LabVIEW Real Time version 2011 and possibly other versions of LabVIEW Real Time, Tags and References may not be readable by Read Anything.  VISA names, DAQ controls, and other NI Hardware names are all in this category. 
+
+LabVIEW 2009 Tag and Reference Failure
+When used with LabVIEW 2009, Tags and References may not be readable by Read Anything.  VISA names, DAQ controls, and other NI Hardware names are all in this category.  This problem was caused by a problem with Unflatten from Variant and can be seen by flattening a VISA name and then unflattening it in LabVIEW 2009.
+
+Default Format String (%#_13g) Fails
+The Format String (%#_13g) fails on Write Anything with certain datatypes.  This can be seen by using an Extended Precision Double with a value of 1E-606.  LabVIEW will halt the execution of running VIs when this occurs.  This occurs because of a problem with the Scan From String function.
+
+Timestamp Format Issues:
+MGI Write Anything has an optional input "Read/Write Options" that allows a format string to be specified for Timestamp data.  By default, this format string is empty, which causes Timestamp data to be saved as a non-human readable hexadecimal string.  When a non-empty format string is used, then the timestamp string written may not correctly describe the timestamp data.  For example, consider the timestamp data "2:00:00.00003".  The "0.00003" fractional second can't be exactly represented as a binary number, so a binary number that closely resembles that fractional second is used.  When the string ".00003" is converted back to the binary number by Read Anything, the binary number may not exactly match the original binary number.  This is caused by the truncating behavior of Format Into String and Scan from String when used with Timestamp data.  Note that the read value will still be "0.00003", but not an exact binary copy of the original data.
+This issue is only a problem when: 1) Timestamp data has fractional seconds, 2) a non-empty timestamp format string is specified in the "Read/Write Options" and 3) timestamp data on read must be the exact copy of timestamp data on write.
+
+String data may get confused with section headers:
+A Section header is defined as a line in a file that starts with "[" and ends with "]" and exists on a single line.  A field name that starts with "[" that has a value that ends with "]" will be confused as a section name.  For example,
+[Field Name]=[Field Value]
+May be listed as the "Field Name]=[Field Value" section.
+Avoid this issue by using field names that do not start with "["
+
+Complex numbers: Reading complex numbers will give default data if the real or imaginary part of the complex number contains Inf or NaN.  This occurs because the LabVIEW function "Scan from String" does not read a complex number that has Inf or NaN.
